@@ -2,7 +2,7 @@ use crate::cartridge::Mirror;
 
 impl super::Ppu {
 
-    pub fn read(&mut self, address: usize) -> u8 {
+    pub fn read(&self, address: usize) -> u8 {
         match address {
             0x0000..=0x1FFF => self.mapper.borrow().read(address),
             0x2000..=0x3EFF => self.read_nametable(address),
@@ -50,7 +50,7 @@ impl super::Ppu {
         }
     }
 
-    fn read_nametable(&mut self, address: usize) -> u8 {
+    fn read_nametable(&self, address: usize) -> u8 {
         let base = address % 0x1000;
         let offset = base % 0x0400;
         match self.mapper.borrow_mut().get_mirroring() {
